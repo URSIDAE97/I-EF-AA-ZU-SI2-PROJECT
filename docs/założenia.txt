@@ -1,0 +1,23 @@
+Konspekt:
+Projekt ma na celu stworzenie aplikacji internetowej umożliwiającej zbieranie informacji o opinii publicznej.
+Przeznaczona jest ona dla władz samorządowych jak również mieszkańców.
+Umożliwiać ma ona tworzenie ankiet zarówno przez władze jak i mieszkańców, anonimowe ich wypełnianie oraz prezentowanie wyników
+już wypełnionych ankiet. Dodatkowo umożliwiała by na generowanie raportów wyników ankiet jak również generowanie stworzonych ankiet
+do wersji papierowej.
+
+Funkcjonolności:
+- dashboard - wyświetla listę najnowszych ankiet z podziałem na rządowe / mieszkańców
+- ankiety - umożliwia przeglądanie wszystkich dostępnych w systemie ankiet z podziłem na rządowe / mieszkańców
+- moje ankiety - (dostępne po zalogowaniu) umożliwia na przeglądanie stworzonych przez użytkownika ankiet oraz tworzenie nowych
+- logowanie do systemu ma zapewnić aby dana ankieta została wypełniona tylko raz przez danego użytkownika
+- tworzenie ankiet - dodawanie kolejnych pytań oraz możliwych dla nich odpowiedzi
+- wypełnianie ankiet - po zalogowaniu (aby zapewnić jednokrotne wypełnianie ankiet), brak udostępniania informacji o odpowiedziach innych
+			użytkowników w celu zapewnienia znonimowości
+- generowanie gotowej ankiety do wersji papierowej (pdf)
+- generowanie raportów z wynikami wypełnionych ankiet (pdf)
+
+Technologie:
+- (backend) - python django
+- (frontend) - vue js + vuetify (biblioteka komponentów ui)
+- (db) - postgreSQL (umieszczona na heroku)
+- (runtime env) - heroku
