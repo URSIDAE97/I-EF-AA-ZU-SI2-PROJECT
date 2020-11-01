@@ -36,7 +36,11 @@ CREATE TABLE USERS
 (
     username VARCHAR(50) PRIMARY KEY,
     password varchar(200) NOT NULL,
-    enabled  BOOLEAN      NOT NULL
+    name varchar(100) NOT NULL,
+    surname varchar(100) NOT NULL,
+    enabled  BOOLEAN      NOT NULL,
+    created timestamp,
+    email varchar(200)
 );
 
 CREATE TABLE AUTHORITIES

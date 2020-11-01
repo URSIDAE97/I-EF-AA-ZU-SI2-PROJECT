@@ -39,7 +39,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
         this.secret = secret;
     }
 
-    @Override
+/*    @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .withUser("test")
@@ -49,7 +49,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                 .password("{bcrypt}" + new BCryptPasswordEncoder().encode("admin"))
                 .roles("USER");
-    }
+    }*/
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

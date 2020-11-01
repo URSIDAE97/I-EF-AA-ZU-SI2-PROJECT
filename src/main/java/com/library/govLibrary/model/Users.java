@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 @Getter
 @Setter
@@ -13,6 +14,10 @@ public class Users {
     private String username;
     private String password;
     private boolean enabled;
+    private String name;
+    private String surname;
+    private Timestamp created;
+    private String email;
 
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "username")
