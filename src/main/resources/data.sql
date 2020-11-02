@@ -1,4 +1,4 @@
-INSERT INTO AUTHOR (id, name, surname, description, born_date) values(1, 'Author name: 1','Author surname: 1','Author description: 1','2018-01-24T14:08:25.803232900');
+/*INSERT INTO AUTHOR (id, name, surname, description, born_date) values(1, 'Author name: 1','Author surname: 1','Author description: 1','2018-01-24T14:08:25.803232900');
 INSERT INTO AUTHOR (id, name, surname, description, born_date) values(2, 'Author name: 2','Author surname: 2','Author description: 2','2018-01-25T14:08:25.804531200');
 INSERT INTO AUTHOR (id, name, surname, description, born_date) values(3, 'Author name: 3','Author surname: 3','Author description: 3','2018-01-26T14:08:25.805536100');
 INSERT INTO AUTHOR (id, name, surname, description, born_date) values(4, 'Author name: 4','Author surname: 4','Author description: 4','2018-01-27T14:08:25.805536100');
@@ -197,4 +197,4 @@ INSERT INTO BOOK (id, author_id, title, description, release_date) values(96,10,
 INSERT INTO BOOK (id, author_id, title, description, release_date) values(97,10, 'Book title: 97','Book description: 97','2018-04-30T14:08:25.979794300');
 INSERT INTO BOOK (id, author_id, title, description, release_date) values(98,10, 'Book title: 98','Book description: 98','2018-05-01T14:08:25.980764100');
 INSERT INTO BOOK (id, author_id, title, description, release_date) values(99,10, 'Book title: 99','Book description: 99','2018-05-02T14:08:25.981762400');
-INSERT INTO BOOK (id, author_id, title, description, release_date) values(100,11, 'Book title: 100','Book description: 100','2018-05-03T14:08:25.981762400');
+INSERT INTO BOOK (id, author_id, title, description, release_date) values(100,11, 'Book title: 100','Book description: 100','2018-05-03T14:08:25.981762400');*/
