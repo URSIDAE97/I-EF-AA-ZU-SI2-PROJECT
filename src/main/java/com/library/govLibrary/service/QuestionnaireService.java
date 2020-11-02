@@ -23,4 +23,8 @@ public class QuestionnaireService {
     public Questionnaire getQuestionnaireById(long id){
         return questionnaireRepository.findById(id).orElseThrow();
     }
+
+    public Questionnaire addQuestionnaire(Questionnaire questionnaire) {
+        return questionnaireRepository.save(questionnaire);
+    }
 }
