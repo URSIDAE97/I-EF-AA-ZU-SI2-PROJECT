@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,4 +23,8 @@ public class Users {
     @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "username")
     private Authorities authority;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "username", updatable = false, insertable = false)
+    private List<Questionnaire> questionnaires;
 }
