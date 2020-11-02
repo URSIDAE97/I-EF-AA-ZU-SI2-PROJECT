@@ -1,5 +1,6 @@
 package com.library.govLibrary.service;
 
+import com.library.govLibrary.controller.dto.UserDto;
 import com.library.govLibrary.exception.user.UserAlreadyExistException;
 import com.library.govLibrary.exception.user.UserBadRequestException;
 import com.library.govLibrary.model.Authorities;
@@ -11,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -20,15 +22,21 @@ public class UserService {
     private final AuthoritiesRepository authoritiesRepository;
 
     @Transactional
-    public String createUser(Users user) {
+    public String createUser(UserDto user) {
         try {
-            user.setAuthority(null);
             Optional<Users> optionalUser = userRepository.findById(user.getUsername());
             if (optionalUser.isPresent()) throw new UserAlreadyExistException(user.getUsername());
 
-            user.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode(user.getPassword()));
+            Users addedUser = new Users();
+            addedUser.setUsername(user.getUsername());
+            addedUser.setCreated(LocalDateTime.now());
+            addedUser.setEmail(user.getEmail());
+            addedUser.setEnabled(true);
+            addedUser.setName(user.getName());
+            addedUser.setSurname(user.getSurname());
+            addedUser.setPassword("{bcrypt}" + new BCryptPasswordEncoder().encode(user.getPassword()));
 
-            userRepository.save(user);
+            userRepository.save(addedUser);
 
             Authorities authorities = new Authorities();
             authorities.setUsername(user.getUsername());

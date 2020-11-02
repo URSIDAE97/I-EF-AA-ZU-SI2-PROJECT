@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -16,7 +17,7 @@ public class Users {
     private boolean enabled;
     private String name;
     private String surname;
-    private Timestamp created;
+    private LocalDateTime created;
     private String email;
 
     @OneToOne(cascade = CascadeType.REMOVE)

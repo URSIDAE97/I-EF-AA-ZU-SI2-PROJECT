@@ -1,5 +1,6 @@
 package com.library.govLibrary.controller;
 
+import com.library.govLibrary.controller.dto.UserDto;
 import com.library.govLibrary.model.Credentials;
 import com.library.govLibrary.model.Users;
 import com.library.govLibrary.service.UserService;
@@ -24,7 +25,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody Users user) {
+    public ResponseEntity<String> register(@RequestBody UserDto user) {
         return ResponseEntity.ok(userService.createUser(user));
     }
 }
