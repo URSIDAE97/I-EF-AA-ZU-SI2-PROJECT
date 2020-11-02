@@ -16,22 +16,6 @@ CREATE TABLE BOOK
     release_date timestamp
 );
 
-CREATE TABLE ADDRESS
-(
-    id          BIGINT AUTO_INCREMENT PRIMARY KEY,
-    town        VARCHAR(100)  NOT NULL,
-    street      VARCHAR(150)  NOT NULL,
-    postal_code VARCHAR(2000) NOT NULL
-);
-
-CREATE TABLE LIBRARY
-(
-    id              BIGINT AUTO_INCREMENT PRIMARY KEY,
-    address_id      BIGINT        NOT NULL,
-    library_name    VARCHAR(200)  NOT NULL,
-    library_details VARCHAR(2000) NULL
-);
-
 CREATE TABLE USERS
 (
     username VARCHAR(50) PRIMARY KEY,
@@ -39,7 +23,7 @@ CREATE TABLE USERS
     name varchar(100) NOT NULL,
     surname varchar(100) NOT NULL,
     enabled  BOOLEAN      NOT NULL,
-    created timestamp,
+    created TIMESTAMP,
     email varchar(200)
 );
 
@@ -48,10 +32,6 @@ CREATE TABLE AUTHORITIES
     username VARCHAR(50) PRIMARY KEY ,
     authority VARCHAR(50)
 );
-
-ALTER TABLE LIBRARY
-    ADD CONSTRAINT library_address_id
-        FOREIGN KEY (address_id) REFERENCES ADDRESS (id);
 
 ALTER TABLE AUTHORITIES
     ADD CONSTRAINT username
