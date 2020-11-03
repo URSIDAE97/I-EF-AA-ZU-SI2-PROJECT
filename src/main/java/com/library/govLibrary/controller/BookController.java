@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "${v1API}")
 public class BookController {
     private final BookService bookService;
 

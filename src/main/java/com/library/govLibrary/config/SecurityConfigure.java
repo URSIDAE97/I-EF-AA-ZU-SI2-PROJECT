@@ -56,14 +56,10 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/**").permitAll() // TODO: just for test; replace with proper security
-                .anyRequest().authenticated()
+                .antMatchers("/api/v1/**").authenticated()
+                .and()
+                .authorizeRequests()
+                .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

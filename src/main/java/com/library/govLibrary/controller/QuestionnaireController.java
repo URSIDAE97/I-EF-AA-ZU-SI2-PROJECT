@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping(path = "${v1API}")
 public class QuestionnaireController {
     private final QuestionnaireService questionnaireService;
 
