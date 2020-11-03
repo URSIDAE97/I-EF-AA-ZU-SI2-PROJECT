@@ -1,10 +1,12 @@
 package com.library.govLibrary.controller;
 
+import com.library.govLibrary.controller.dto.QuestionnaireDto;
 import com.library.govLibrary.model.Questionnaire;
 import com.library.govLibrary.service.QuestionnaireService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +26,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping("/questionnaire")
-    public Questionnaire addQuestionnaire(@RequestBody Questionnaire questionnaire){
+    public Questionnaire addQuestionnaire(@RequestBody @Valid QuestionnaireDto questionnaire){
         return questionnaireService.addQuestionnaire(questionnaire);
     }
 }

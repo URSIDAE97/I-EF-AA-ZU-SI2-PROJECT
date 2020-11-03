@@ -1,12 +1,16 @@
 package com.library.govLibrary.service;
 
+import com.library.govLibrary.controller.dto.QuestionnaireDto;
 import com.library.govLibrary.model.Questionnaire;
 import com.library.govLibrary.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,7 +28,16 @@ public class QuestionnaireService {
         return questionnaireRepository.findById(id).orElseThrow();
     }
 
-    public Questionnaire addQuestionnaire(Questionnaire questionnaire) {
-        return questionnaireRepository.save(questionnaire);
+    public Questionnaire addQuestionnaire(QuestionnaireDto questionnaire) {
+        Questionnaire addedQuestionnaire = new Questionnaire();
+        addedQuestionnaire.setActivation(questionnaire.getActivation());
+        addedQuestionnaire.setCreated(LocalDateTime.now());
+        addedQuestionnaire.setDescription(questionnaire.getDescription());
+        addedQuestionnaire.setExpired(questionnaire.getExpired());
+        addedQuestionnaire.setIdCategory(questionnaire.getIdCategory());
+        addedQuestionnaire.setTitle(questionnaire.getTitle());
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        addedQuestionnaire.setUsername((String)principal);
+        return questionnaireRepository.save(addedQuestionnaire);
     }
 }
