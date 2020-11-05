@@ -80,6 +80,7 @@ public class SecurityConfigure extends WebSecurityConfigurerAdapter {
         JsonAuthenticationFilter filter = new JsonAuthenticationFilter(objectMapper);
         filter.setAuthenticationSuccessHandler(succesHandler);
         filter.setAuthenticationFailureHandler(failureHandler);
+        filter.setFilterProcessesUrl("/api/user/login");
         filter.setAuthenticationManager(super.authenticationManager());
         return filter;
     }
