@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class QuestionnaireService {
         return questionnaireRepository.findById(id).orElseThrow();
     }
 
+    @Transactional
     public Questionnaire addQuestionnaire(QuestionnaireDto questionnaire) {
         Questionnaire addedQuestionnaire = new Questionnaire();
         addedQuestionnaire.setActivation(questionnaire.getActivation());
@@ -38,6 +40,10 @@ public class QuestionnaireService {
         addedQuestionnaire.setTitle(questionnaire.getTitle());
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         addedQuestionnaire.setUsername((String)principal);
-        return questionnaireRepository.save(addedQuestionnaire);
+        addedQuestionnaire.setQuestion(questionnaire.getQuestion());
+
+        Questionnaire save = questionnaireRepository.save(addedQuestionnaire);
+        // TODO: Implement method to add questions to DB.
+        return save;
     }
 }
