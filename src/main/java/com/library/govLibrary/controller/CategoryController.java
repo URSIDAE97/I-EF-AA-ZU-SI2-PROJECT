@@ -15,12 +15,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/categories")
-    public List<Category> getAllQuestionnaire() {
+    public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
-    @PostMapping("/questionnaire")
-    public Category addQuestionnaire(@RequestBody @Valid Category category){
+    @PostMapping("/category")
+    public Category addCategory(@RequestBody @Valid Category category){
         return categoryService.addQuestionnaire(category);
     }
 }

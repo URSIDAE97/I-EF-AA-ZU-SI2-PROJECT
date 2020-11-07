@@ -46,7 +46,7 @@ public class QuestionnaireService {
 
         Questionnaire save = questionnaireRepository.save(addedQuestionnaire);
 
-        questionnaire.getQuestion().forEach(question -> question.setId(save.getId()));
+        questionnaire.getQuestion().forEach(question -> question.setQuestionnaireId(save.getId()));
         questionRepository.saveAll(questionnaire.getQuestion());
         return save;
     }
