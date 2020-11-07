@@ -2,6 +2,7 @@ package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
 import com.library.govLibrary.model.Questionnaire;
+import com.library.govLibrary.repository.QuestionRepository;
 import com.library.govLibrary.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ public class QuestionnaireService {
     private static final int SIZE = 20;
     private static final Sort.Direction DIRECTION = Sort.Direction.ASC;
     private final QuestionnaireRepository questionnaireRepository;
+    private final QuestionRepository questionRepository;
 
     public List<Questionnaire> getAllQuestionnaire(int page){
         return questionnaireRepository.findAllQuestionnaire(PageRequest.of(page, SIZE, DIRECTION, "idCategory", "expired"));
@@ -43,7 +45,9 @@ public class QuestionnaireService {
         addedQuestionnaire.setQuestion(questionnaire.getQuestion());
 
         Questionnaire save = questionnaireRepository.save(addedQuestionnaire);
-        // TODO: Implement method to add questions to DB.
+
+        questionnaire.getQuestion().forEach(question -> question.setId(save.getId()));
+        questionRepository.saveAll(questionnaire.getQuestion());
         return save;
     }
 }
