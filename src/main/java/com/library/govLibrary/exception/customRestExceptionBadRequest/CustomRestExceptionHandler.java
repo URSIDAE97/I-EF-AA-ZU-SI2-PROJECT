@@ -1,4 +1,4 @@
-package com.library.govLibrary.exception.CustomRestExceptionHandler;
+package com.library.govLibrary.exception.customRestExceptionBadRequest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
