@@ -1,17 +1,20 @@
 package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
+import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Questionnaire;
 import com.library.govLibrary.repository.QuestionRepository;
 import com.library.govLibrary.repository.QuestionnaireRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -40,8 +43,8 @@ public class QuestionnaireService {
         addedQuestionnaire.setExpired(questionnaire.getExpired());
         addedQuestionnaire.setIdCategory(questionnaire.getIdCategory());
         addedQuestionnaire.setTitle(questionnaire.getTitle());
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        addedQuestionnaire.setUsername((String)principal);
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        addedQuestionnaire.setUsername(principal.getName());
         addedQuestionnaire.setQuestion(questionnaire.getQuestion());
 
         Questionnaire save = questionnaireRepository.save(addedQuestionnaire);
@@ -49,5 +52,13 @@ public class QuestionnaireService {
         questionnaire.getQuestion().forEach(question -> question.setQuestionnaireId(save.getId()));
         questionRepository.saveAll(questionnaire.getQuestion());
         return save;
+    }
+
+    public void deleteQuestionnaireById(long id) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+            throw new UserAccessForbidden(principal.getName());
+
+        questionRepository.deleteById(id);
     }
 }
