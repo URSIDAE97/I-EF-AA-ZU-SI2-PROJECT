@@ -1,5 +1,6 @@
 package com.library.govLibrary.service;
 
+import com.library.govLibrary.controller.dto.CategoryDto;
 import com.library.govLibrary.model.Category;
 import com.library.govLibrary.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category addQuestionnaire(Category category) {
-        return categoryRepository.save(category);
+    public Category addQuestionnaire(CategoryDto category) {
+        Category addedCategory = new Category();
+        addedCategory.setDescription(category.getDescription());
+        addedCategory.setSummary(category.getSummary());
+        return categoryRepository.save(addedCategory);
     }
 }

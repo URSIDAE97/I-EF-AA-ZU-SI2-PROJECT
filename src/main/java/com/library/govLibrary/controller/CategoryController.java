@@ -1,5 +1,6 @@
 package com.library.govLibrary.controller;
 
+import com.library.govLibrary.controller.dto.CategoryDto;
 import com.library.govLibrary.model.Category;
 import com.library.govLibrary.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class CategoryController {
     }
 
     @PostMapping("/category")
-    public Category addCategory(@RequestBody @Valid Category category){
+    public Category addCategory(@RequestBody @Valid CategoryDto category){
         return categoryService.addQuestionnaire(category);
     }
 }
