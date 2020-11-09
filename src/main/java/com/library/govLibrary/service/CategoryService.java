@@ -20,7 +20,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category addQuestionnaire(CategoryDto category) {
+    public Category addCategory(CategoryDto category) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
         if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
             throw new UserAccessForbidden(principal.getName());
@@ -29,5 +29,13 @@ public class CategoryService {
         addedCategory.setDescription(category.getDescription());
         addedCategory.setSummary(category.getSummary());
         return categoryRepository.save(addedCategory);
+    }
+
+    public void deleteCategory(long id) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+            throw new UserAccessForbidden(principal.getName());
+
+        categoryRepository.deleteById(id);
     }
 }

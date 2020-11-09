@@ -22,6 +22,11 @@ public class CategoryController {
 
     @PostMapping("/category")
     public Category addCategory(@RequestBody @Valid CategoryDto category){
-        return categoryService.addQuestionnaire(category);
+        return categoryService.addCategory(category);
+    }
+
+    @DeleteMapping("/category/{id}")
+    public void deleteCategory(@PathVariable long id){
+        categoryService.deleteCategory(id);
     }
 }
