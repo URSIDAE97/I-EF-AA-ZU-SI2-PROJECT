@@ -25,7 +25,7 @@ public class Category {
     @Length(min = 5, max = 500)
     private String description;
 
-    @OneToMany(cascade = CascadeType.DETACH)
+    @OneToMany(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "idCategory", updatable = false, insertable = false)
     private List<Questionnaire> questionnaire;
 }
