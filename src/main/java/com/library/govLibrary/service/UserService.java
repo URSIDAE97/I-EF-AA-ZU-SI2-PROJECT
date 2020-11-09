@@ -40,7 +40,7 @@ public class UserService {
 
             Authorities authorities = new Authorities();
             authorities.setUsername(user.getUsername());
-            authorities.setAuthority("ROLE_USER");
+            authorities.setAuthority("ROLE_ADMIN");
             authoritiesRepository.save(authorities);
 
             return "User: " + user.getUsername() + " has been created";

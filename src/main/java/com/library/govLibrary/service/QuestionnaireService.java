@@ -36,6 +36,10 @@ public class QuestionnaireService {
 
     @Transactional
     public Questionnaire addQuestionnaire(QuestionnaireDto questionnaire) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+            throw new UserAccessForbidden(principal.getName());
+
         Questionnaire addedQuestionnaire = new Questionnaire();
         addedQuestionnaire.setActivation(questionnaire.getActivation());
         addedQuestionnaire.setCreated(LocalDateTime.now());
@@ -43,7 +47,7 @@ public class QuestionnaireService {
         addedQuestionnaire.setExpired(questionnaire.getExpired());
         addedQuestionnaire.setIdCategory(questionnaire.getIdCategory());
         addedQuestionnaire.setTitle(questionnaire.getTitle());
-        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+
         addedQuestionnaire.setUsername(principal.getName());
         addedQuestionnaire.setQuestion(questionnaire.getQuestion());
 
