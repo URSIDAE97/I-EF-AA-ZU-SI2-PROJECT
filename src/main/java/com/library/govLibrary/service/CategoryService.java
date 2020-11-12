@@ -22,7 +22,7 @@ public class CategoryService {
 
     public Category addCategory(CategoryDto category) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+        if(principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
 
         Category addedCategory = new Category();
