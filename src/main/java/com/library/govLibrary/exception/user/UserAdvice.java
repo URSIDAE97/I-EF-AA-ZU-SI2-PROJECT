@@ -21,4 +21,12 @@ public class UserAdvice {
     public String userBadRequestHandler(UserBadRequestException ex) {
         return ex.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(UserAccessForbidden.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public String userBadRequestHandler(UserAccessForbidden ex) {
+        return ex.getMessage();
+    }
+
 }
