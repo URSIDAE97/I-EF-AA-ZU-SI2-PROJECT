@@ -29,4 +29,9 @@ public class UserController {
     public ResponseEntity<String> addRoleAdmin(@PathVariable String username) {
         return ResponseEntity.ok(userService.addRoleAdmin(username));
     }
+
+    @DeleteMapping("/admin/role/{username}")
+    public void deleteRoleAdmin(@PathVariable String username) {
+        userService.deleteRoleAdmin(username);
+    }
 }

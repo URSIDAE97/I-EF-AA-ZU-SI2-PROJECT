@@ -51,11 +51,19 @@ public class UserService {
     }
 
     public String addRoleAdmin(String username) {
-        Users user = userRepository.findById(username).orElseThrow(() -> new UserBadRequestException("Username not founded"));
+        Users user = userRepository.findById(username).orElseThrow(() -> new UserBadRequestException("User not found"));
         Authorities authorities = new Authorities();
         authorities.setUsername(user.getUsername());
         authorities.setAuthority("ROLE_ADMIN");
         authoritiesRepository.save(authorities);
         return "Role Admin has been added to user: " + username;
+    }
+
+    public void deleteRoleAdmin(String username) {
+        Users user = userRepository.findById(username).orElseThrow(() -> new UserBadRequestException("Usern not found"));
+        Authorities authorities = new Authorities();
+        authorities.setUsername(user.getUsername());
+        authorities.setAuthority("ROLE_USER");
+        authoritiesRepository.save(authorities);
     }
 }
