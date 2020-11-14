@@ -1,6 +1,7 @@
 package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.UserDto;
+import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.exception.user.UserAlreadyExistException;
 import com.library.govLibrary.exception.user.UserBadRequestException;
 import com.library.govLibrary.model.Authorities;
@@ -47,5 +48,14 @@ public class UserService {
         } catch (Exception e) {
             throw new UserBadRequestException(e.getMessage());
         }
+    }
+
+    public String addRoleAdmin(String username) {
+        Users user = userRepository.findById(username).orElseThrow(() -> new UserBadRequestException("Username not founded"));
+        Authorities authorities = new Authorities();
+        authorities.setUsername(user.getUsername());
+        authorities.setAuthority("ROLE_ADMIN");
+        authoritiesRepository.save(authorities);
+        return "Role Admin has been added to user: " + username;
     }
 }

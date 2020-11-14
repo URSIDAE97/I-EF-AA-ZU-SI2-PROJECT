@@ -2,16 +2,10 @@ package com.library.govLibrary.controller;
 
 import com.library.govLibrary.controller.dto.UserDto;
 import com.library.govLibrary.model.Credentials;
-import com.library.govLibrary.model.Users;
 import com.library.govLibrary.service.UserService;
-import com.library.govLibrary.validation.UserValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -29,5 +23,10 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserDto user) {
         return ResponseEntity.ok(userService.createUser(user));
+    }
+
+    @PostMapping("/admin/role/{username}")
+    public ResponseEntity<String> addRoleAdmin(@PathVariable String username) {
+        return ResponseEntity.ok(userService.addRoleAdmin(username));
     }
 }
