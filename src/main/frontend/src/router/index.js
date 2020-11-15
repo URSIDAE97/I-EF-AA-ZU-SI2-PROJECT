@@ -8,6 +8,7 @@ import MyQuestionnaires from '@/views/MyQuestionnaires'
 import AdminPanel from '@/views/AdminPanel'
 import EditQuestionnaire from '@/views/EditQuestionnaire'
 import Login from '@/views/Login'
+import Signup from '@/views/Signup'
 
 Vue.use(VueRouter)
 
@@ -57,7 +58,15 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      title: 'login'
+      title: 'logowanie'
+    }
+  },
+  {
+    path: 'signup',
+    name: 'Signup',
+    component: Signup,
+    meta: {
+      title: 'rejestracja'
     }
   }
 ]
@@ -69,9 +78,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && getAuthToken() === null) {
+  if (!['Login', 'Signup'].includes(to.name) && getAuthToken() === null) {
     next({ name: 'Login' })
-  } else if (to.name === 'Login' && getAuthToken() !== null) {
+  } else if (['Login', 'Signup'].includes(to.name) && getAuthToken() !== null) {
     next(from)
   } else {
     next()

@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "${v1API}")
+@CrossOrigin(origins = "http://localhost:8081")
 public class BookController {
     private final BookService bookService;
 
