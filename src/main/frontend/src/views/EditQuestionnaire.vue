@@ -1,5 +1,5 @@
 <template>
-  <v-container id="edit-poll" class="ma-0 pa-5">
+  <v-container id="edit-questionnaire" class="ma-0 pa-5">
     <v-row>
       <h3>
         Szczegóły
@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-text-field
-        v-model="poll.name"
+        v-model="questionnaire.name"
         label="Tytuł"
       >
         <v-icon slot="prepend">
@@ -17,7 +17,7 @@
     </v-row>
     <v-row>
       <v-textarea
-        v-model="poll.description"
+        v-model="questionnaire.description"
         label="Opis"
       >
         <v-icon slot="prepend">
@@ -37,7 +37,7 @@
           tile
           color="primary"
           link
-          :to="{ name: 'EditPoll' }"
+          :to="{ name: 'EditQuestionnaire' }"
         >
           <v-icon left>
             mdi-plus
@@ -47,7 +47,7 @@
       </v-col>
     </v-row>
     <v-row
-      v-for="question in poll.questions"
+      v-for="question in questionnaire.questions"
       :key="question.id"
     >
       <v-card outlined width="100%">
@@ -74,7 +74,7 @@
               tile
               color="primary"
               link
-              :to="{ name: 'EditPoll' }"
+              :to="{ name: 'EditQuestionnaire' }"
             >
               <v-icon left>
                 mdi-plus
@@ -119,11 +119,11 @@
 
 <script>
 export default {
-  name: "EditPoll",
+  name: "EditQuestionnaire",
 
   data () {
     return {
-      poll: {
+      questionnaire: {
         name: '',
         description: '',
         questions: [

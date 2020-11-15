@@ -6,10 +6,10 @@
     <v-list-item three-line>
       <v-list-item-content>
         <v-list-item-title class="headline mb-1">
-          {{ poll.title }}
+          {{ questionnaire.title }}
         </v-list-item-title>
         <v-list-item-subtitle>
-          {{ poll.description }}
+          {{ questionnaire.description }}
         </v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
@@ -46,10 +46,10 @@
 
 <script>
 export default {
-  name: 'PollCard',
+  name: 'QuestionnaireCard',
 
   props: {
-    poll: {
+    questionnaire: {
       type: Object,
       required: true
     }

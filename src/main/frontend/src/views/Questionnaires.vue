@@ -1,33 +1,33 @@
 <template>
   <v-tabs
-    id="polls"
+    id="questionnaires"
     class="ma-0 pa-5"
   >
     <v-tab>Ankiety rządowe</v-tab>
     <v-tab>Ankiety obywatelskie</v-tab>
 
     <v-tab-item>
-      <polls-list
-        :polls="items"
+      <questionnaires-list
+        :questionnaires="items"
       />
     </v-tab-item>
 
     <v-tab-item>
-      <polls-list
-        :polls="items"
+      <questionnaires-list
+        :questionnaires="items"
       />
     </v-tab-item>
   </v-tabs>
 </template>
 
 <script>
-import PollsList from '@/components/polls/PollsList'
+import QuestionnairesList from '@/components/questionnaires/QuestionnairesList'
 
 export default {
-  name: 'Polls',
+  name: 'Questionnaires',
 
   components: {
-    PollsList
+    QuestionnairesList
   },
 
   data () {

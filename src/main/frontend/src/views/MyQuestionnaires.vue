@@ -1,14 +1,14 @@
 <template>
   <v-tabs
-    id="my-polls"
+    id="my-questionnaires"
     class="ma-0 pa-5"
   >
     <v-tab>Aktywne</v-tab>
     <v-tab>Wersje robocze</v-tab>
 
     <v-tab-item>
-      <polls-list
-        :polls="items"
+      <questionnaires-list
+        :questionnaires="items"
       />
     </v-tab-item>
 
@@ -19,7 +19,7 @@
             tile
             color="primary"
             link
-            :to="{ name: 'EditPoll' }"
+            :to="{ name: 'EditQuestionnaire' }"
           >
             <v-icon left>
               mdi-plus
@@ -28,21 +28,21 @@
           </v-btn>
         </v-row>
       </v-container>
-      <polls-list
-        :polls="items"
+      <questionnaires-list
+        :questionnaires="items"
       />
     </v-tab-item>
   </v-tabs>
 </template>
 
 <script>
-import PollsList from '@/components/polls/PollsList'
+import QuestionnairesList from '@/components/questionnaires/QuestionnairesList'
 
 export default {
-  name: 'MyPolls',
+  name: 'MyQuestionnaires',
 
   components: {
-    PollsList
+    QuestionnairesList
   },
 
   data () {

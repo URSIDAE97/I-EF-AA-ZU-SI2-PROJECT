@@ -28,6 +28,7 @@
           icon
           v-bind="attrs"
           v-on="on"
+          @click="logout()"
         >
           <v-icon>mdi-logout</v-icon>
         </v-btn>
@@ -38,6 +39,9 @@
 </template>
 
 <script>
+import { clearAuthToken } from '@/services/local_storage_service.js'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'AppBar',
 
@@ -46,6 +50,17 @@ export default {
       user: {
         name: 'Adam Kowalski'
       }
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'setUserInfo'
+    ]),
+    logout () {
+      clearAuthToken()
+      this.setUserInfo()
+      this.$router.push({ name: 'Login' })
     }
   }
 }

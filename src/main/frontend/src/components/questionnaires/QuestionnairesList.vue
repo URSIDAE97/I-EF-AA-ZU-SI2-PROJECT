@@ -1,20 +1,20 @@
 <template>
   <v-list two-line>
     <v-list-item-group>
-      <template v-for="(poll, index) in polls">
-        <v-list-item :key="poll.id">
+      <template v-for="(questionnaire, index) in questionnaires">
+        <v-list-item :key="questionnaire.id">
             <v-list-item-content>
               <v-list-item-title class="pb-2">
-                {{ poll.title }}
+                {{ questionnaire.title }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ poll.description }}
+                {{ questionnaire.description }}
               </v-list-item-subtitle>
             </v-list-item-content>
 
             <v-list-item-action>
               <v-list-item-action-text>
-                {{ poll.added }}
+                {{ questionnaire.added }}
               </v-list-item-action-text>
 
               <v-row>
@@ -48,7 +48,7 @@
         </v-list-item>
 
         <v-divider
-          v-if="index < polls.length - 1"
+          v-if="index < questionnaires.length - 1"
           :key="index"
         ></v-divider>
       </template>
@@ -58,10 +58,10 @@
 
 <script>
 export default {
-  name: 'PollsList',
+  name: 'QuestionnairesList',
 
   props: {
-    polls: {
+    questionnaires: {
       type: Array,
       default () {
         return []

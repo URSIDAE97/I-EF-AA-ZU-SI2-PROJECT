@@ -10,9 +10,9 @@
       <v-row align="start">
         <div class="card-grid">
           <template v-for="item in items">
-            <poll-card
+            <questionnaire-card
               :key="item.id"
-              :poll="item"
+              :questionnaire="item"
             />
           </template>
         </div>
@@ -27,9 +27,9 @@
       <v-row align="start">
         <div class="card-grid">
           <template v-for="item in items">
-            <poll-card
+            <questionnaire-card
               :key="item.id"
-              :poll="item"
+              :questionnaire="item"
             />
           </template>
         </div>
@@ -39,13 +39,13 @@
 </template>
 
 <script>
-import PollCard from '@/components/dashboard/PollCard'
+import QuestionnaireCard from '@/components/dashboard/QuestionnaireCard'
 
 export default {
   name: 'Dashboard',
 
   components: {
-    PollCard
+    QuestionnaireCard
   },
 
   data () {

@@ -30,7 +30,7 @@
 
       <v-list-item
         link
-        :to="{ name: 'Polls' }"
+        :to="{ name: 'Questionnaires' }"
       >
         <v-list-item-icon>
           <v-icon>
@@ -47,7 +47,7 @@
 
       <v-list-item
         link
-        :to="{ name: 'MyPolls' }"
+        :to="{ name: 'MyQuestionnaires' }"
       >
         <v-list-item-icon>
           <v-icon>
