@@ -21,6 +21,12 @@ public class QuestionnaireController {
         return questionnaireService.getQuestionnaireById(id);
     }
 
+    @GetMapping("/questionnaire/{id}/titile")
+    public Questionnaire getQuestionnaireTitleById(@PathVariable long id) {
+        // TODO Add some DTO to show only summary for questionnaire
+        return questionnaireService.getQuestionnaireTitleById(id);
+    }
+
     @GetMapping("/questionnaires")
     public List<Questionnaire> getAllQuestionnaire(@RequestParam(required = false) Integer page) {
         int pageNum = page != null && page > 0 ? page : 1;
