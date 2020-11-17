@@ -18,7 +18,9 @@ server_api.interceptors.request.use((config) => {
 
 server_api.interceptors.response.use((response) => {
   const token = response.headers['applicationtoken']
-  setAuthToken(token)
+  if (token) {
+    setAuthToken(token)
+  }
   return response
 })
 
