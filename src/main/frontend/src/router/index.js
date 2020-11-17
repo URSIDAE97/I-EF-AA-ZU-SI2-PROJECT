@@ -9,6 +9,7 @@ import AdminPanel from '@/views/AdminPanel'
 import EditQuestionnaire from '@/views/EditQuestionnaire'
 import Login from '@/views/Login'
 import Signup from '@/views/Signup'
+import UserProfile from '@/views/UserProfile'
 
 Vue.use(VueRouter)
 
@@ -67,6 +68,14 @@ const routes = [
     component: Signup,
     meta: {
       title: 'rejestracja'
+    }
+  },
+  {
+    path: '/user-profile',
+    name: 'UserProfile',
+    component: UserProfile,
+    meta: {
+      title: 'mój profil'
     }
   }
 ]

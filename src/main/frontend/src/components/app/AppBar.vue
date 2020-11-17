@@ -11,6 +11,8 @@
           icon
           v-bind="attrs"
           v-on="on"
+          link
+          :to="{ name: 'UserProfile' }"
         >
           <v-icon>mdi-account-circle-outline</v-icon>
         </v-btn>
@@ -19,7 +21,7 @@
     </v-tooltip>
 
     <div>
-      {{ user.name }}
+      {{ userNameAndSurname }}
     </div>
 
     <v-tooltip bottom>
@@ -40,16 +42,17 @@
 
 <script>
 import { clearAuthToken } from '@/services/local_storage_service.js'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'AppBar',
 
-  data () {
-    return {
-      user: {
-        name: 'Adam Kowalski'
-      }
+  computed: {
+    ...mapState([
+      'user'
+    ]),
+    userNameAndSurname () {
+      return this.user.name + ' ' + this.user.surname
     }
   },
 
