@@ -97,6 +97,7 @@ export default {
             self.loading = false
           })
       } else {
+        self.loginError = true
         self.loading = false
       }
     },

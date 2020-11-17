@@ -134,6 +134,7 @@ export default {
             self.loading = false
           })
       } else {
+        self.signupError = true
         self.loading = false
       }
     },

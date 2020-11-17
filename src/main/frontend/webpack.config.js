@@ -1,4 +1,5 @@
 module.exports = {
+  devtool: 'source-map',
   rules: [
     {
       test: /\.s(c|a)ss$/,
