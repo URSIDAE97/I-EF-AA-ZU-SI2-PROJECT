@@ -76,4 +76,8 @@ public class QuestionnaireService {
 
         questionRepository.deleteById(id);
     }
+
+    public Questionnaire getQuestionnaireTitleById(long id) {
+        return questionnaireRepository.getTitleForQuestionnaire(id).orElseThrow();
+    }
 }
