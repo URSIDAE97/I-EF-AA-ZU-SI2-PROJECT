@@ -6,8 +6,7 @@ export function authenticateUser (user) {
   return new Promise((resolve, reject) => {
     return server_api.post(`${BASE_URL}/login`, user)
       .then(response => {
-        const token = response.headers['ApplicationToken']
-        const h = response.request.headers
+        const token = response.headers['applicationtoken']
         resolve(token)
       })
       .catch(error => {

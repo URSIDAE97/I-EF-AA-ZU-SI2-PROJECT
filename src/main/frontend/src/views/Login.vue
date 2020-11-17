@@ -86,8 +86,8 @@ export default {
       self.loading = true
       if (self.validateLoginForm()) {
         authenticateUser(self.loginData)
-          .then((data) => {
-            setAuthToken(data.ApplicationToken)
+          .then((token) => {
+            setAuthToken(token)
             self.setUserInfo()
             self.loading = false
             self.$router.push({ name: 'Dashboard' })

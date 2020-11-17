@@ -22,6 +22,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final AuthoritiesRepository authoritiesRepository;
 
+    public Users getUser(String username) {
+        Optional<Users> optionalUser = userRepository.findById(username);
+        if (optionalUser.isEmpty()) {
+            throw new UserBadRequestException(String.format("User %s not found", username));
+        } else {
+            return optionalUser.get();
+        }
+    }
+
     @Transactional
     public String createUser(UserDto user) {
         try {
