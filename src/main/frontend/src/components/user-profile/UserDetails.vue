@@ -1,5 +1,5 @@
 <template>
-  <v-form>
+  <v-form id="user-details">
     <v-container class="pa-3 ma-0">
       <v-row style="width: 500px;">
         <v-col>

@@ -2,14 +2,15 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { getAuthToken } from '@/services/local_storage_service.js'
 
-import Dashboard from '@/views/Dashboard'
-import Questionnaires from '@/views/Questionnaires'
-import MyQuestionnaires from '@/views/MyQuestionnaires'
-import AdminPanel from '@/views/AdminPanel'
-import EditQuestionnaire from '@/views/EditQuestionnaire'
-import Login from '@/views/Login'
-import Signup from '@/views/Signup'
-import UserProfile from '@/views/UserProfile'
+import Dashboard from '@/views/dashboard/Dashboard'
+import Questionnaires from '@/views/questionnaires/Questionnaires'
+import MyQuestionnaires from '@/views/my-questionnaires/MyQuestionnaires'
+import AdminPanel from '@/views/admin-panel/AdminPanel'
+import EditCategory from '@/views/admin-panel/EditCategory'
+import EditQuestionnaire from '@/views/my-questionnaires/EditQuestionnaire'
+import Login from '@/views/authentication/Login'
+import Signup from '@/views/authentication/Signup'
+import UserProfile from '@/views/user-profile/UserProfile'
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,14 @@ const routes = [
     component: UserProfile,
     meta: {
       title: 'mój profil'
+    }
+  },
+  {
+    path: '/edit-category',
+    name: 'EditCategory',
+    component: EditCategory,
+    meta: {
+      title: 'edycja kategorii'
     }
   }
 ]

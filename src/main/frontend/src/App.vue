@@ -21,9 +21,11 @@ import { mapState, mapActions } from 'vuex'
 /* ----------------- */
 const TextInput = () => import(/* webpackChunkName: 'inputs' */ '@/components/common/inputs/TextInput')
 const PasswordInput = () => import(/* webpackChunkName: 'inputs' */ '@/components/common/inputs/PasswordInput')
+const TextArea = () => import(/* webpackChunkName: 'inputs' */ '@/components/common/inputs/TextArea')
 
 Vue.component('text-input', TextInput)
 Vue.component('password-input', PasswordInput)
+Vue.component('text-area', TextArea)
 
 export default {
   components: {

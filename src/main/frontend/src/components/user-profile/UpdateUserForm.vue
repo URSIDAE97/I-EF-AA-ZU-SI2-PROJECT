@@ -40,6 +40,9 @@
           color="success"
           @click="updateUser()"
         >
+          <v-icon left>
+            mdi-check-circle-outline
+          </v-icon>
           AKTUALIZUJ
         </v-btn>
       </v-col>
@@ -48,6 +51,9 @@
           color="primary"
           @click="closeUpdateForm()"
         >
+          <v-icon left>
+            mdi-close-circle-outline
+          </v-icon>
           ANULUJ
         </v-btn>
       </v-col>

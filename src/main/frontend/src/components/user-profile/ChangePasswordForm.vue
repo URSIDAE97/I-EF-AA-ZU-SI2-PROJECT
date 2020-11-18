@@ -38,6 +38,9 @@
             @click="changePassword()"
             class="mt-2"
           >
+            <v-icon left>
+              mdi-check-circle-outline
+            </v-icon>
             ZMIEŃ HASŁO
           </v-btn>
         </v-col>
