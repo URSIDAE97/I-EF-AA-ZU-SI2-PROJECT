@@ -2,6 +2,7 @@ package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
 import com.library.govLibrary.controller.dto.QuestionnaireTitle;
+import com.library.govLibrary.exception.category.CategoryNotFoundException;
 import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Option;
 import com.library.govLibrary.model.Question;
@@ -49,7 +50,7 @@ public class QuestionnaireService {
         if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
 
-        categoryRepository.findById(questionnaire.getIdCategory()).orElseThrow();
+        categoryRepository.findById(questionnaire.getIdCategory()).orElseThrow(() -> new CategoryNotFoundException(questionnaire.getIdCategory()));
 
         Questionnaire addedQuestionnaire = new Questionnaire();
         addedQuestionnaire.setActivation(questionnaire.getActivation());
