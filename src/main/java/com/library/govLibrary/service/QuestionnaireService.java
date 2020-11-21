@@ -6,6 +6,7 @@ import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Option;
 import com.library.govLibrary.model.Question;
 import com.library.govLibrary.model.Questionnaire;
+import com.library.govLibrary.repository.CategoryRepository;
 import com.library.govLibrary.repository.OptionRepository;
 import com.library.govLibrary.repository.QuestionRepository;
 import com.library.govLibrary.repository.QuestionnaireRepository;
@@ -32,6 +33,7 @@ public class QuestionnaireService {
     private final QuestionnaireRepository questionnaireRepository;
     private final QuestionRepository questionRepository;
     private final OptionRepository optionRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Questionnaire> getAllQuestionnaire(int page) {
         return questionnaireRepository.findAllQuestionnaire(PageRequest.of(page, SIZE, DIRECTION, "idCategory", "expired"));
@@ -46,6 +48,8 @@ public class QuestionnaireService {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
         if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
+
+        categoryRepository.findById(questionnaire.getIdCategory()).orElseThrow();
 
         Questionnaire addedQuestionnaire = new Questionnaire();
         addedQuestionnaire.setActivation(questionnaire.getActivation());
