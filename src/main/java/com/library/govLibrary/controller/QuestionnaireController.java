@@ -1,6 +1,7 @@
 package com.library.govLibrary.controller;
 
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
+import com.library.govLibrary.controller.dto.QuestionnaireTitle;
 import com.library.govLibrary.model.Questionnaire;
 import com.library.govLibrary.service.QuestionnaireService;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,10 +22,9 @@ public class QuestionnaireController {
         return questionnaireService.getQuestionnaireById(id);
     }
 
-    @GetMapping("/questionnaire/{id}/titile")
-    public Questionnaire getQuestionnaireTitleById(@PathVariable long id) {
-        // TODO Add some DTO to show only summary for questionnaire
-        return questionnaireService.getQuestionnaireTitleById(id);
+    @GetMapping("/questionnaires/title")
+    public List<QuestionnaireTitle> getQuestionnaireTitle() {
+        return questionnaireService.getQuestionnairesTitle();
     }
 
     @GetMapping("/questionnaires")
@@ -33,7 +34,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping("/questionnaire")
-    public Questionnaire addQuestionnaire(@RequestBody @Valid QuestionnaireDto questionnaire){
+    public Questionnaire addQuestionnaire(@RequestBody @Valid QuestionnaireDto questionnaire) {
         return questionnaireService.addQuestionnaire(questionnaire);
     }
 

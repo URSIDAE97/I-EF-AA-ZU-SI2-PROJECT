@@ -1,10 +1,13 @@
 package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
+import com.library.govLibrary.controller.dto.QuestionnaireTitle;
+import com.library.govLibrary.exception.category.CategoryNotFoundException;
 import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Option;
 import com.library.govLibrary.model.Question;
 import com.library.govLibrary.model.Questionnaire;
+import com.library.govLibrary.repository.CategoryRepository;
 import com.library.govLibrary.repository.OptionRepository;
 import com.library.govLibrary.repository.QuestionRepository;
 import com.library.govLibrary.repository.QuestionnaireRepository;
@@ -31,20 +34,23 @@ public class QuestionnaireService {
     private final QuestionnaireRepository questionnaireRepository;
     private final QuestionRepository questionRepository;
     private final OptionRepository optionRepository;
+    private final CategoryRepository categoryRepository;
 
-    public List<Questionnaire> getAllQuestionnaire(int page){
+    public List<Questionnaire> getAllQuestionnaire(int page) {
         return questionnaireRepository.findAllQuestionnaire(PageRequest.of(page, SIZE, DIRECTION, "idCategory", "expired"));
     }
 
-    public Questionnaire getQuestionnaireById(long id){
+    public Questionnaire getQuestionnaireById(long id) {
         return questionnaireRepository.findById(id).orElseThrow();
     }
 
     @Transactional
     public Questionnaire addQuestionnaire(QuestionnaireDto questionnaire) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-        if(principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
+        if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
+
+        categoryRepository.findById(questionnaire.getIdCategory()).orElseThrow(() -> new CategoryNotFoundException(questionnaire.getIdCategory()));
 
         Questionnaire addedQuestionnaire = new Questionnaire();
         addedQuestionnaire.setActivation(questionnaire.getActivation());
@@ -71,13 +77,18 @@ public class QuestionnaireService {
 
     public void deleteQuestionnaireById(long id) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+        if (principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count() < 1)
             throw new UserAccessForbidden(principal.getName());
 
         questionRepository.deleteById(id);
     }
 
-    public Questionnaire getQuestionnaireTitleById(long id) {
-        return questionnaireRepository.getTitleForQuestionnaire(id).orElseThrow();
+    public List<QuestionnaireTitle> getQuestionnairesTitle() {
+        List<Questionnaire> questionnaireList = questionnaireRepository.findAll(Sort.by(Sort.Direction.ASC, "expired"));
+        return questionnaireList.stream().map(
+                questionnaire -> QuestionnaireTitle.builder()
+                        .id(questionnaire.getId()).title(questionnaire.getTitle())
+                        .build())
+                .collect(Collectors.toList());
     }
 }
