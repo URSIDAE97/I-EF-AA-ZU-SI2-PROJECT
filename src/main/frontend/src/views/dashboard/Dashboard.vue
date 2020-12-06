@@ -1,45 +1,34 @@
 <template>
   <v-container id="dashboard" class="fill-height ma-0 pa-5">
     <v-col align-self="start">
-      <v-row class="mb-5">
-        <h3>
-          Ankiety rządowe
-        </h3>
-      </v-row>
+      <template
+        v-for="category in categories.data"
+      >
+        <v-row :key="'header_' + category.id" class="my-5">
+          <h3>
+            {{ category.summary }}
+          </h3>
+        </v-row>
 
-      <v-row align="start">
-        <div class="card-grid">
-          <template v-for="item in items">
-            <questionnaire-card
-              :key="item.id"
-              :questionnaire="item"
-            />
-          </template>
-        </div>
-      </v-row>
-
-      <v-row class="my-5">
-        <h3>
-          Ankiety obywatelskie
-        </h3>
-      </v-row>
-
-      <v-row align="start">
-        <div class="card-grid">
-          <template v-for="item in items">
-            <questionnaire-card
-              :key="item.id"
-              :questionnaire="item"
-            />
-          </template>
-        </div>
-      </v-row>
+        <v-row :key="'grid_' + category.id" align="start">
+          <div class="card-grid">
+            <template v-for="questionnaire in questionairesByCategory[category.id]">
+              <questionnaire-card
+                :key="'grid_item_' + questionnaire.id"
+                :questionnaire="questionnaire"
+              />
+            </template>
+          </div>
+        </v-row>
+      </template>
     </v-col>
   </v-container>
 </template>
 
 <script>
 import QuestionnaireCard from '@/components/dashboard/QuestionnaireCard'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import { groupBy } from 'lodash'
 
 export default {
   name: 'Dashboard',
@@ -50,48 +39,37 @@ export default {
 
   data () {
     return {
-      items: [
-        {
-          id: 0,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 1,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 2,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 3,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 4,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 5,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 6,
-          title: 'title',
-          description: 'description'
-        },
-        {
-          id: 7,
-          title: 'title',
-          description: 'description'
-        }
-      ]
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'categories',
+      'questionnaires'
+    ]),
+    ...mapGetters([
+      'activeQuestionnaires'
+    ]),
+    questionairesByCategory () {
+      const self = this
+      return groupBy(self.activeQuestionnaires, 'idCategory')
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'getCategories',
+      'getQuestionnaires'
+    ])
+  },
+
+  mounted () {
+    const self = this
+    if (!self.categories.loaded) {
+      self.getCategories()
+    }
+    if (!self.questionnaires.loaded) {
+      self.getQuestionnaires()
     }
   }
 }
