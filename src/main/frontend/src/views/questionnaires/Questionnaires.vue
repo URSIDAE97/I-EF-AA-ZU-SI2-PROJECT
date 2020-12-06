@@ -3,18 +3,19 @@
     id="questionnaires"
     class="ma-0 pa-5"
   >
-    <v-tab>Ankiety rządowe</v-tab>
-    <v-tab>Ankiety obywatelskie</v-tab>
+    <v-tab
+      v-for="category in categories.data"
+      :key="'tab_' + category.id"
+    >
+      {{ category.summary }}
+    </v-tab>
 
-    <v-tab-item>
+    <v-tab-item
+      v-for="category in categories.data"
+      :key="'tab_item_' + category.id"
+    >
       <questionnaires-list
-        :questionnaires="items"
-      />
-    </v-tab-item>
-
-    <v-tab-item>
-      <questionnaires-list
-        :questionnaires="items"
+        :questionnaires="questionairesByCategory[category.id]"
       />
     </v-tab-item>
   </v-tabs>
@@ -22,6 +23,8 @@
 
 <script>
 import QuestionnairesList from '@/components/questionnaires/QuestionnairesList'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import { groupBy } from 'lodash'
 
 export default {
   name: 'Questionnaires',
@@ -32,56 +35,37 @@ export default {
 
   data () {
     return {
-      items: [
-        {
-          id: 0,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 1,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 2,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 3,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 4,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 5,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 6,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 7,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        }
-      ]
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'categories',
+      'questionnaires'
+    ]),
+    ...mapGetters([
+      'activeQuestionnaires'
+    ]),
+    questionairesByCategory () {
+      const self = this
+      return groupBy(self.activeQuestionnaires, 'idCategory')
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'getCategories',
+      'getQuestionnaires'
+    ])
+  },
+
+  mounted () {
+    const self = this
+    if (!self.categories.loaded) {
+      self.getCategories()
+    }
+    if (!self.questionnaires.loaded) {
+      self.getQuestionnaires()
     }
   }
 }
