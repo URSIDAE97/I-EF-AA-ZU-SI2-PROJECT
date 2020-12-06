@@ -1,6 +1,7 @@
 package com.library.govLibrary.service;
 
 import com.library.govLibrary.controller.dto.CategoryDto;
+import com.library.govLibrary.exception.category.CategoryNotFoundException;
 import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Category;
 import com.library.govLibrary.repository.CategoryRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,9 +33,25 @@ public class CategoryService {
         return categoryRepository.save(addedCategory);
     }
 
+    public Category editCategory(long id, CategoryDto category) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if(principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
+            throw new UserAccessForbidden(principal.getName());
+
+        Optional<Category> optCategory = categoryRepository.findById(id);
+        if (optCategory.isPresent()) {
+            Category existingCategory = optCategory.get();
+            existingCategory.setDescription(category.getDescription());
+            existingCategory.setSummary(category.getSummary());
+            return categoryRepository.save(existingCategory);
+        } else {
+            throw new CategoryNotFoundException(id);
+        }
+    }
+
     public void deleteCategory(long id) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-        if(principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count()<1)
+        if(principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
 
         categoryRepository.deleteById(id);

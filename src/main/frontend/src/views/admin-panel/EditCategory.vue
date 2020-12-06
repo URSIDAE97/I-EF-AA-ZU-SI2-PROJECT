@@ -1,156 +1,132 @@
 <template>
-  <v-container id="edit-questionnaire" class="ma-0 pa-5">
-    <v-row>
-      <h3>
-        Szczegóły
-      </h3>
-    </v-row>
-    <v-row>
-      <v-text-field
-        v-model="questionnaire.name"
-        label="Tytuł"
-      >
-        <v-icon slot="prepend">
-          mdi-pencil-outline
-        </v-icon>
-      </v-text-field>
-    </v-row>
-    <v-row>
-      <v-textarea
-        v-model="questionnaire.description"
-        label="Opis"
-      >
-        <v-icon slot="prepend">
-          mdi-pencil-outline
-        </v-icon>
-      </v-textarea>
-    </v-row>
-    <v-row>
-      <v-col>
-        <h3>
-          Pytania
-        </h3>
-      </v-col>
-      <v-spacer />
-      <v-col>
-        <v-btn
-          tile
-          color="primary"
-          link
-          :to="{ name: 'EditQuestionnaire' }"
-        >
-          <v-icon left>
-            mdi-plus
-          </v-icon>
-          Dodaj
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row
-      v-for="question in questionnaire.questions"
-      :key="question.id"
-    >
-      <v-card outlined width="100%">
-        <v-row>
-          <v-text-field
-            v-model="question.title"
-            label="Tytuł"
-          >
-            <v-icon slot="prepend">
-              mdi-pencil-outline
-            </v-icon>
-          </v-text-field>
-        </v-row>
+  <v-form id="edit-category">
+    <v-container class="pa-3 ma-0">
+      <v-row style="width: 800px;">
+        <v-col v-if="categoryInfo">
+          <!-- TITLE -->
+          <h4>
+            <b>{{ title }}</b>
+          </h4>
 
-        <v-row>
-          <v-col>
-            <h4>
-              Opcje
-            </h4>
-          </v-col>
-          <v-spacer />
-          <v-col>
-            <v-btn
-              tile
-              color="primary"
-              link
-              :to="{ name: 'EditQuestionnaire' }"
-            >
-              <v-icon left>
-                mdi-plus
-              </v-icon>
-              Dodaj
-            </v-btn>
-          </v-col>
-        </v-row>
+          <!-- EDIT FORM -->
+          <text-input
+            v-model="categoryInfo.summary"
+            label="Nazwa"
+            icon="mdi-pencil"
+            :error="formError"
+            :maxlength="50"
+            name="summary"
+            @input="formError = false"
+            @enter="updateCategory()"
+          />
+          <text-area
+            v-model="categoryInfo.description"
+            label="Opis"
+            icon="mdi-pencil"
+            :error="formError"
+            :maxlength="100"
+            name="description"
+            @input="formError = false"
+            @enter="updateCategory()"
+          />
 
-
-
-        <v-row v-for="option in question.options" :key="option.id">
-          <v-text-field
-            v-model="option.title"
-            label="Tytuł"
-          >
-            <v-icon slot="prepend">
-              mdi-radiobox-blank
-            </v-icon>
-          </v-text-field>
-        </v-row>
-
-        <v-card-actions>
-          <v-spacer />
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
+          <v-row class="mt-2">
+            <v-col>
               <v-btn
-                icon
-                v-bind="attrs"
-                v-on="on"
+                color="success"
+                @click="updateCategory()"
               >
-                <v-icon>mdi-delete-outline</v-icon>
+                <v-icon left>
+                  mdi-check-circle-outline
+                </v-icon>
+                {{ btnAction }}
               </v-btn>
-            </template>
-            <span>Usuń pytanie</span>
-          </v-tooltip>
-        </v-card-actions>
-      </v-card>
-    </v-row>
-  </v-container>
+            </v-col>
+            <v-col>
+              <v-btn
+                color="primary"
+                @click="closeUpdateForm()"
+              >
+                <v-icon left>
+                  mdi-close-circle-outline
+                </v-icon>
+                ANULUJ
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
-export default {
-  name: "EditQuestionnaire",
+import { mapState, mapActions } from 'vuex'
 
-  data () {
+export default {
+  name: 'EditCategory',
+
+  data() {
     return {
-      questionnaire: {
-        name: '',
-        description: '',
-        questions: [
-          {
-            id: 0,
-            title: '',
-            options: [
-              {
-                id: 0,
-                title: ''
-              },
-              {
-                id: 1,
-                title: ''
-              }
-            ]
-          }
-        ]
-      },
-      question: {
-        id: 0,
-        title: '',
-        options: []
-      },
-      option: {
-        id: 0,
-        title: ''
+      categoryInfo: null,
+      formError: false
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'categories'
+    ]),
+    title () {
+      return this.$route.params.id !== 'new' ? 'Edytuj kategorię' : 'Nowa kategoria'
+    },
+    btnAction () {
+      return this.$route.params.id !== 'new' ? 'AKTUALIZUJ' : 'DODAJ'
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'getCategories',
+      'addCategory',
+      'editCategory'
+    ]),
+    updateCategory () {
+      const self = this
+      const id = self.$route.params.id
+      if (id === 'new') {
+        self.addCategory(self.categoryInfo)
+          .then(() => {
+            self.$router.push({ name: 'AdminPanel' })
+          })
+      } else {
+        self.editCategory(self.categoryInfo)
+          .then(() => {
+            self.$router.push({ name: 'AdminPanel' })
+          })
+      }
+    },
+    closeUpdateForm () {
+      this.$router.push({ name: 'AdminPanel' })
+    }
+  },
+
+  mounted () {
+    const self = this
+    const id = parseInt(self.$route.params.id)
+    if (id === 'new') {
+      self.categoryInfo = {
+        summary: '',
+        description: ''
+      }
+    } else {
+      if (!self.categories.loaded) {
+        self.getCategories()
+          .then(() => {
+            self.categoryInfo = Object.assign({}, self.categories.data.find(c => c.id === id))
+          })
+      } else {
+        self.categoryInfo = Object.assign({}, self.categories.data.find(c => c.id === id))
       }
     }
   }

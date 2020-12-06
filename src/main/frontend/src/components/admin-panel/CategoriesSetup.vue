@@ -6,7 +6,7 @@
           tile
           color="primary"
           link
-          :to="{ name: 'EditCategory' }"
+          :to="{ name: 'EditCategory', params: { id: 'new' } }"
         >
           <v-icon left>
             mdi-plus
@@ -17,7 +17,7 @@
     </v-container>
     <v-list two-line>
       <v-list-item-group>
-        <template v-for="(category, index) in categories">
+        <template v-for="(category, index) in categories.data">
           <v-list-item :key="category.id">
               <v-list-item-content>
                 <v-list-item-title class="pb-2">
@@ -36,6 +36,8 @@
                         icon
                         v-bind="attrs"
                         v-on="on"
+                        link
+                        :to="{ name: 'EditCategory', params: { id: category.id } }"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -49,6 +51,7 @@
                         icon
                         v-bind="attrs"
                         v-on="on"
+                        @click="removeCategory(category)"
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -60,7 +63,7 @@
           </v-list-item>
 
           <v-divider
-            v-if="index < categories.length - 1"
+            v-if="index < categories.data.length - 1"
             :key="index"
           ></v-divider>
         </template>
@@ -70,28 +73,36 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'CategoriesSetup',
 
   data () {
     return {
-      categories: [
-        {
-          id: 0,
-          summary: 'ajdhdsa',
-          description: 'oishfjhsdjfjsdjfhsjdhfjhsf jsdhfjhsdjfh sdkfsdjf sfkjsdkfj sdfkjsdfkj'
-        },
-        {
-          id: 1,
-          summary: 'ajdhdsa',
-          description: 'oishfjhsdjfjsdjfhsjdhfjhsf jsdhfjhsdjfh sdkfsdjf sfkjsdkfj sdfkjsdfkj'
-        },
-        {
-          id: 2,
-          summary: 'ajdhdsa',
-          description: 'oishfjhsdjfjsdjfhsjdhfjhsf jsdhfjhsdjfh sdkfsdjf sfkjsdkfj sdfkjsdfkj'
-        }
-      ]
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'categories'
+    ])
+  },
+
+  methods: {
+    ...mapActions([
+      'getCategories',
+      'deleteCategory'
+    ]),
+    removeCategory (category) {
+      this.deleteCategory(category.id)
+    }
+  },
+
+  mounted () {
+    const self = this
+    if (!self.categories.loaded) {
+      self.getCategories()
     }
   }
 }

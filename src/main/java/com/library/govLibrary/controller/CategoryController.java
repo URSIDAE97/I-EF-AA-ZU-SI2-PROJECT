@@ -25,6 +25,14 @@ public class CategoryController {
         return categoryService.addCategory(category);
     }
 
+    @PostMapping("/category/{id}")
+    public Category editCategory(
+            @PathVariable long id,
+            @RequestBody @Valid CategoryDto category
+    ) {
+        return categoryService.editCategory(id, category);
+    }
+
     @DeleteMapping("/category/{id}")
     public void deleteCategory(@PathVariable long id){
         categoryService.deleteCategory(id);
