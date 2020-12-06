@@ -21,6 +21,8 @@
             icon
             v-bind="attrs"
             v-on="on"
+            link
+            :to="{ name: 'Questionnaire', params: { id: questionnaire.id } }"
           >
             <v-icon>mdi-playlist-check</v-icon>
           </v-btn>

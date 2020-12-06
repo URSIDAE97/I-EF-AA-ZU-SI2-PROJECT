@@ -7,7 +7,7 @@
           <div v-if="!editing">
             <p>
               <b>Nazwa użytkownika: </b>
-              {{ user. username }}
+              {{ user.username }}
             </p>
             <p>
               <b>Imie: </b>

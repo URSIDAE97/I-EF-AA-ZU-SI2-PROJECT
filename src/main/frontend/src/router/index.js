@@ -11,6 +11,7 @@ import EditQuestionnaire from '@/views/my-questionnaires/EditQuestionnaire'
 import Login from '@/views/authentication/Login'
 import Signup from '@/views/authentication/Signup'
 import UserProfile from '@/views/user-profile/UserProfile'
+import Questionnaire from '@/views/questionnaires/Questionnaire'
 
 Vue.use(VueRouter)
 
@@ -85,6 +86,14 @@ const routes = [
     component: EditCategory,
     meta: {
       title: 'edycja kategorii'
+    }
+  },
+  {
+    path: '/questionnaire/:id',
+    name: 'Questionnaire',
+    component: Questionnaire,
+    meta: {
+      title: 'wypełnij ankietę'
     }
   }
 ]
