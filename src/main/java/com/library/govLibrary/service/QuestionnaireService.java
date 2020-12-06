@@ -3,6 +3,7 @@ package com.library.govLibrary.service;
 import com.library.govLibrary.controller.dto.QuestionnaireDto;
 import com.library.govLibrary.controller.dto.QuestionnaireTitle;
 import com.library.govLibrary.exception.category.CategoryNotFoundException;
+import com.library.govLibrary.exception.questionnaire.QuestionnaireNotFundException;
 import com.library.govLibrary.exception.user.UserAccessForbidden;
 import com.library.govLibrary.model.Option;
 import com.library.govLibrary.model.Question;
@@ -24,6 +25,7 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,9 +77,66 @@ public class QuestionnaireService {
         return save;
     }
 
+    @Transactional
+    public Questionnaire editQuestionnaire(long id, QuestionnaireDto questionnaire) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
+            throw new UserAccessForbidden(principal.getName());
+
+        categoryRepository.findById(questionnaire.getIdCategory()).orElseThrow(() -> new CategoryNotFoundException(questionnaire.getIdCategory()));
+
+        Optional<Questionnaire> optQuestionnaire = questionnaireRepository.findById(id);
+
+        if (optQuestionnaire.isPresent()) {
+            Questionnaire existingQuestionnaire = optQuestionnaire.get();
+
+            existingQuestionnaire.setActivation(questionnaire.getActivation());
+            existingQuestionnaire.setCreated(LocalDateTime.now());
+            existingQuestionnaire.setDescription(questionnaire.getDescription());
+            existingQuestionnaire.setExpired(questionnaire.getExpired());
+            existingQuestionnaire.setIdCategory(questionnaire.getIdCategory());
+            existingQuestionnaire.setTitle(questionnaire.getTitle());
+            existingQuestionnaire.setUsername(principal.getName());
+            existingQuestionnaire.setQuestion(questionnaire.getQuestion());
+
+            Questionnaire save = questionnaireRepository.save(existingQuestionnaire);
+
+            questionnaire.getQuestion().forEach(question -> question.setQuestionnaireId(save.getId()));
+            List<Question> questions = questionRepository.saveAll(questionnaire.getQuestion());
+
+            questions.forEach(question -> question.getOption().forEach(option -> option.setQuestionId(question.getId())));
+            List<Option> options = questions.stream().map(Question::getOption).flatMap(Collection::stream).collect(Collectors.toList());
+
+            optionRepository.saveAll(options);
+
+            return save;
+        } else {
+            throw new QuestionnaireNotFundException(id);
+        }
+    }
+
+    @Transactional
+    public Questionnaire activateQuestionnaireById(long id) {
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
+            throw new UserAccessForbidden(principal.getName());
+
+        Optional<Questionnaire> optQuestionnaire = questionnaireRepository.findById(id);
+
+        if (optQuestionnaire.isPresent()) {
+            Questionnaire existingQuestionnaire = optQuestionnaire.get();
+
+            existingQuestionnaire.setActivation(LocalDateTime.now());
+
+            return questionnaireRepository.save(existingQuestionnaire);
+        } else {
+            throw new QuestionnaireNotFundException(id);
+        }
+    }
+
     public void deleteQuestionnaireById(long id) {
         Authentication principal = SecurityContextHolder.getContext().getAuthentication();
-        if (principal.getAuthorities().stream().filter(grantedAuthority -> grantedAuthority.equals("ROLE_ADMIN")).count() < 1)
+        if (principal.getAuthorities().stream().noneMatch(grantedAuthority -> grantedAuthority.toString().equals("ROLE_ADMIN")))
             throw new UserAccessForbidden(principal.getName());
 
         questionRepository.deleteById(id);

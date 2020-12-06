@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,8 +37,22 @@ public class QuestionnaireController {
         return questionnaireService.addQuestionnaire(questionnaire);
     }
 
+    @PostMapping("/questionnaire/{id}")
+    public Questionnaire editQuestionnaire(
+            @PathVariable long id,
+            @RequestBody @Valid QuestionnaireDto questionnaire
+    ) {
+        return questionnaireService.editQuestionnaire(id, questionnaire);
+    }
+
     @DeleteMapping("/questionnaire/{id}")
     public void deleteQuestionnaireById(@PathVariable long id) {
         questionnaireService.deleteQuestionnaireById(id);
     }
+
+    @GetMapping("/questionnaire/activate/{id}")
+    public Questionnaire activateQuestionnaireById(@PathVariable long id) {
+        return questionnaireService.activateQuestionnaireById(id);
+    }
+
 }

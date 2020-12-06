@@ -113,7 +113,7 @@ export default {
 
   mounted () {
     const self = this
-    const id = parseInt(self.$route.params.id)
+    const id = self.$route.params.id=== 'new' ? self.$route.params.id : parseInt(self.$route.params.id)
     if (id === 'new') {
       self.categoryInfo = {
         summary: '',

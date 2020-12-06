@@ -48,7 +48,7 @@ const routes = [
     }
   },
   {
-    path: '/edit-questionnaire',
+    path: '/edit-questionnaire/:id',
     name: 'EditQuestionnaire',
     component: EditQuestionnaire,
     meta: {

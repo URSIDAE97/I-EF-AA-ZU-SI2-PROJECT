@@ -8,7 +8,7 @@
 
     <v-tab-item>
       <questionnaires-list
-        :questionnaires="items"
+        :questionnaires="activeQuestionnaires"
       />
     </v-tab-item>
 
@@ -19,7 +19,7 @@
             tile
             color="primary"
             link
-            :to="{ name: 'EditQuestionnaire' }"
+            :to="{ name: 'EditQuestionnaire', params: { id: 'new' } }"
           >
             <v-icon left>
               mdi-plus
@@ -29,7 +29,11 @@
         </v-row>
       </v-container>
       <questionnaires-list
-        :questionnaires="items"
+        :questionnaires="wipQuestionnaires"
+        :edit="true"
+        @edit="editQuestionnaire($event)"
+        @delete="removeQuestionnaire($event)"
+        @activate="publishQuestionnaire($event)"
       />
     </v-tab-item>
   </v-tabs>
@@ -37,6 +41,7 @@
 
 <script>
 import QuestionnairesList from '@/components/questionnaires/QuestionnairesList'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   name: 'MyQuestionnaires',
@@ -47,56 +52,40 @@ export default {
 
   data () {
     return {
-      items: [
-        {
-          id: 0,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 1,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 2,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 3,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 4,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 5,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 6,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        },
-        {
-          id: 7,
-          title: 'title',
-          description: 'description',
-          added: '5 min ago'
-        }
-      ]
+    }
+  },
+
+  computed: {
+    ...mapState([
+      'questionnaires'
+    ]),
+    ...mapGetters([
+      'activeQuestionnaires',
+      'wipQuestionnaires'
+    ])
+  },
+
+  methods: {
+    ...mapActions([
+      'getQuestionnaires',
+      'deleteQuestionnaire',
+      'activateQuestionnaire'
+    ]),
+    editQuestionnaire (id) {
+      this.$router.push({ name: 'EditQuestionnaire', params: { id: id } })
+    },
+    removeQuestionnaire (id) {
+      this.deleteQuestionnaire(id)
+    },
+    publishQuestionnaire (id) {
+      this.activateQuestionnaire(id)
+    }
+  },
+
+  mounted () {
+    const self = this
+    if (!self.questionnaires.loaded) {
+      self.getQuestionnaires()
     }
   }
 }

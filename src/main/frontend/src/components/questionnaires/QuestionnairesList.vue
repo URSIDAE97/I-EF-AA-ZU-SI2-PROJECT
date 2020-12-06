@@ -18,7 +18,49 @@
               </v-list-item-action-text>
 
               <v-row>
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="edit">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="$emit('edit', questionnaire.id)"
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Edytuj</span>
+                </v-tooltip>
+
+                <v-tooltip bottom v-if="edit">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="$emit('activate', questionnaire.id)"
+                    >
+                      <v-icon>mdi-file-upload</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Aktywuj</span>
+                </v-tooltip>
+
+                <v-tooltip bottom v-if="edit">
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      icon
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="$emit('delete', questionnaire.id)"
+                    >
+                      <v-icon>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Usuń</span>
+                </v-tooltip>
+
+                <v-tooltip bottom v-if="!edit">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       icon
@@ -31,7 +73,7 @@
                   <span>Wypełnij</span>
                 </v-tooltip>
 
-                <v-tooltip bottom>
+                <v-tooltip bottom v-if="!edit">
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
                       icon
@@ -66,6 +108,10 @@ export default {
       default () {
         return []
       }
+    },
+    edit: {
+      type: Boolean,
+      default: false
     }
   }
 }
